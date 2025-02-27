@@ -76,19 +76,6 @@ The API provides an endpoint (`/evaluate_proposal`) that accepts JSON data conta
         * `plan` (string): Selected plan (1, 2, or 3).
     * Returns a JSON response with the evaluation decision.
 
-### Example Request
-
-```json
-{
-    "name": "John Doe",
-    "age": 30,
-    "salary": 60000,
-    "health_condition": "none",
-    "plan": "2"
-}
-
-
-
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and create a pull request.
 
