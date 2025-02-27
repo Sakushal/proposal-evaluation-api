@@ -55,6 +55,15 @@
             <input type="text" class="form-control" id="age" placeholder="Enter your age" required>
           </div>
           <div class="mb-3">
+            <label for="plan" class="form-label">Plan</label>
+            <select class="form-select" id="plan" required>
+              <option> Choose a plan </option>
+                <option value="1">Plan 1</option>
+                <option value="2">Plan 2</option>
+                <option value="3">Plan 3</option>
+            </select>
+        </div>
+          <div class="mb-3">
             <label for="salary" class="form-label">Salary</label>
             <input type="text" class="form-control" id="salary" placeholder="Enter your salary" required>
           </div>
@@ -80,7 +89,8 @@
         name: document.getElementById('name').value,
         age: document.getElementById('age').value,
         salary: document.getElementById('salary').value,
-        health_condition: document.getElementById('health').value
+        health_condition: document.getElementById('health').value,
+        plan: document.getElementById('plan').value
       };
 
       // Send data to the backend using Fetch API
