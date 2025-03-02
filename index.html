@@ -82,75 +82,83 @@
   <script>
     // Handle form submission
     document.getElementById('proposalForm').addEventListener('submit', function(event) {
-      event.preventDefault();
+        event.preventDefault();
 
-      // Get form data
-      const formData = {
-        name: document.getElementById('name').value,
-        age: document.getElementById('age').value,
-        salary: document.getElementById('salary').value,
-        health_condition: document.getElementById('health').value,
-        plan: document.getElementById('plan').value
-      };
+        // Get form data
+        const formData = {
+            name: document.getElementById('name').value,
+            age: document.getElementById('age').value,
+            salary: document.getElementById('salary').value,
+            health_condition: document.getElementById('health').value,
+            plan: document.getElementById('plan').value
+        };
 
-      // Send data to the backend using Fetch API
-      fetch('http://127.0.0.1:5000/evaluate_proposal', {
-        method: 'POST', // Request method
-        headers: {
-          'Content-Type': 'application/json' // Content type for JSON data
-        },
-        body: JSON.stringify(formData) // Send the form data as JSON
-      })
-      .then(response => response.json()) // Parse response to JSON
-      .then(data => {
-        // Create a toast notification
-        const toastContainer = document.getElementById('toastContainer');
+        // Send data to the backend using Fetch API
+        fetch('http://127.0.0.1:5000/evaluate_proposal', {
+            method: 'POST', // Request method
+            headers: {
+                'Content-Type': 'application/json' // Content type for JSON data
+            },
+            body: JSON.stringify(formData) // Send the form data as JSON
+        })
+        .then(response => {
+            if (!response.ok) {
+                // If the response status is not OK (e.g., 400), parse the JSON error
+                return response.json().then(errorData => {
+                    throw new Error(errorData.error || 'An error occurred.');
+                });
+            }
+            return response.json(); // Parse response to JSON
+        })
+        .then(data => {
+            // Create a toast notification (for success)
+            const toastContainer = document.getElementById('toastContainer');
 
-        let toastMessage = '';
-        let toastClass = '';
+            let toastMessage = '';
+            let toastClass = '';
 
-        if (data.decision.includes("Accepted")) {
-          // Success toast (green for accepted)
-          toastMessage = data.decision;
-          toastClass = 'toast-success';
-        } else {
-          // Error toast (red for rejected)
-          toastMessage = data.decision;
-          toastClass = 'toast-error';
-        }
+            if (data.decision.includes("Accepted")) {
+                // Success toast (green for accepted)
+                toastMessage = data.decision;
+                toastClass = 'toast-success';
+            } else {
+                // Error toast (red for rejected)
+                toastMessage = data.decision;
+                toastClass = 'toast-error';
+            }
 
-        // Create the toast HTML
-        const toast = document.createElement('div');
-        toast.classList.add('toast', 'show', toastClass);
-        toast.innerHTML = `<div class="toast-body">${toastMessage}</div>`;
+            // Create the toast HTML
+            const toast = document.createElement('div');
+            toast.classList.add('toast', 'show', toastClass);
+            toast.innerHTML = `<div class="toast-body">${toastMessage}</div>`;
 
-        // Append toast to the container
-        toastContainer.appendChild(toast);
+            // Append toast to the container
+            toastContainer.appendChild(toast);
 
-        // Hide toast after 5 seconds
-        setTimeout(() => {
-          toast.classList.remove('show');
-          toast.classList.add('hide');
-          setTimeout(() => toast.remove(), 1000); // Remove the toast after fade-out
-        }, 10000);
-      })
-      .catch(error => {
-        // Display an error if something goes wrong
-        const toastContainer = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.classList.add('toast', 'show', 'toast-error');
-        toast.innerHTML = `<div class="toast-body">Error: ${error.message}</div>`;
-        toastContainer.appendChild(toast);
+            // Hide toast after 10 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 1000); // Remove the toast after fade-out
+            }, 10000);
+        })
+        .catch(error => {
+            // Display an error if something goes wrong
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.classList.add('toast', 'show', 'toast-error');
+            toast.innerHTML = `<div class="toast-body">Error: ${error.message}</div>`;
+            toastContainer.appendChild(toast);
 
-        // Hide toast after 10 seconds
-        setTimeout(() => {
-          toast.classList.remove('show');
-          toast.classList.add('hide');
-          setTimeout(() => toast.remove(), 1000); // Remove the toast after fade-out
-        }, 10000);
-      });
+            // Hide toast after 10 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 1000); // Remove the toast after fade-out
+            }, 10000);
+        });
     });
-  </script>
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -69,7 +69,7 @@ def evaluate_proposal():
         if age < 0 or salary < 0:
             return jsonify({'error': 'Age and salary must be non-negative.'}), 400
 
-        if not isinstance(health_condition, str) or not re.match(r'^[a-zA-Z\s,]*$', health_condition):
+        if not isinstance(health_condition, str) or not re.match(r'^[a-zA-Z0-9\s.,!?]+$', health_condition):
             return jsonify({'error': 'Invalid health condition format. Only letters, spaces, and commas are allowed.'}), 400
 
         medical_history = [cond.strip().lower() for cond in health_condition.split(',') if cond.strip()]
